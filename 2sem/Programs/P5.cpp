@@ -3,61 +3,74 @@
 
 using namespace std;
 
-class Resourse 
+class Resource 
 {
-  static bool ob = false;
-  Resourse();
+  static bool ob;
+  bool Alloc;
   public:
-  Resourse Allocate();
-  void Release(Resourse &R);
-  ~Resourse();
+  Resource();
+  void Allocate();
+  void Release();
+  ~Resource();
 };
 
-Resourse::Resource()
+Resource::Resource()
 {
-  ob=true;
+  Alloc=false;
 };
-Resourse Resource::Allocate()
+void Resource::Allocate()
 {
   if(ob==true)
   {
     cout<<"\n can't be allocated already!!\nAlready allocated to another process!!";
-    return null;
+    
   }
   else
   {
+    ob=true;
+    Alloc=true;
     cout<<"\nAllocated succesfully";
-    return new Resourse();
+    
   }
 };
 
-void Resource::Release(Resourse &R)
+void Resource::Release()
 {
   if(false==ob)
   {
-    cout<<"Resourse is not allocated to any object";
+    cout<<"\nResourse is not allocated to any object";
   }
   else
   {
-    if(R==NULL)
+    if(Alloc==false)
     {
-      cout<<"Empty reference to Resourse";
+      cout<<"\nEmpty reference to Resourse";
     }
     else
     {
-      delete R;
-      Cout<<"Resourse released";
+      ob=false;
+      Alloc =false;
+      cout<<"\nResourse released";
     }
 
   }
 };
+bool Resource::ob=false;
 
-Resource::~Resource(){ob=false;};
+Resource::~Resource(){
+  if(Alloc ==true)
+  ob=false;};
 
 int main()
 {
   Resource R;
   Resource R1;
-  Resource &R2=new Resource();
+  Resource R2;
+  R.Allocate();
+  R1.Allocate();
+  R1.Release();
+  R.Release();
+  R2.Allocate();
+
 
 }
